@@ -27,5 +27,4 @@ This application was specifically designed to demonstrate proficiency in handlin
 * **Group 5:** Mirza Umer Ikram & Ruhma Bilal
 * **University:** University of Central Punjab (UCP), Lahore
 
-## 📱 Screenshots
-*(Screenshots can be added here showing the Dashboard, Recording screen, and Playback screen)*
+
