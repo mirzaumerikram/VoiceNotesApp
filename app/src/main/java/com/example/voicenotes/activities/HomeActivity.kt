@@ -153,7 +153,7 @@ class HomeActivity : AppCompatActivity() {
             R.id.action_about -> {
                 AlertDialog.Builder(this)
                     .setTitle("VoiceNotes")
-                    .setMessage("Version 1.0\nGroup 5 — FYP26-CS-G11\nUCP Lahore\n\nMirza Umer & Ruhma Bilal")
+                    .setMessage("Version 1.0\nFYP26-CS-G11\nUCP Lahore\n\nMirza Umer Ikram")
                     .setPositiveButton("OK") { d, _ -> d.dismiss() }
                     .show()
                 true

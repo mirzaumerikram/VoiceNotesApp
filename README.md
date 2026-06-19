@@ -23,8 +23,8 @@ This application was specifically designed to demonstrate proficiency in handlin
 * **Database:** SQLite
 * **UI:** XML Layouts, Material Design
 
-## 👥 Authors
-* **Group 5:** Mirza Umer Ikram & Ruhma Bilal
+## 👥 Author
+* Mirza Umer Ikram
 * **University:** University of Central Punjab (UCP), Lahore
 
 
