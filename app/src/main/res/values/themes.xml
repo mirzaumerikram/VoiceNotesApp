@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.VoiceNotes" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/gold</item>
+        <item name="colorPrimaryVariant">@color/gold_dark</item>
+        <item name="colorOnPrimary">@color/navy_dark</item>
+        <item name="colorSurface">@color/navy_mid</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="android:windowBackground">@color/navy_dark</item>
+        <item name="android:statusBarColor">@color/navy_dark</item>
+        <item name="android:navigationBarColor">@color/navy_dark</item>
+    </style>
+
+    <style name="TextAppearance.VoiceNotes.Title" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.VoiceNotes.Subtitle" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/white_70</item>
+    </style>
+
+    <style name="Widget.VoiceNotes.Button.Gold" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/gold</item>
+        <item name="android:textColor">@color/navy_dark</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <style name="Widget.VoiceNotes.Button.Outline" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/gold</item>
+        <item name="android:textColor">@color/gold</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <style name="Widget.VoiceNotes.EditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/gold</item>
+        <item name="hintTextColor">@color/gold</item>
+        <item name="android:textColorHint">@color/white_40</item>
+    </style>
+</resources>
