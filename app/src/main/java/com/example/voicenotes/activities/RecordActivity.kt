@@ -39,6 +39,7 @@ class RecordActivity : AppCompatActivity() {
     private lateinit var timerRunnable: Runnable
 
     private lateinit var waveformBars: List<View>
+    private val pulseAnimators = mutableListOf<android.animation.Animator>()
 
     companion object {
         private const val REQ_AUDIO = 200
@@ -70,6 +71,7 @@ class RecordActivity : AppCompatActivity() {
         }
 
         binding.btnMic.setOnClickListener {
+            it.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
             if (!isRecording) {
                 checkPermissionAndRecord()
             } else {
@@ -128,7 +130,12 @@ class RecordActivity : AppCompatActivity() {
                     elapsedSeconds = 0
                     binding.tvStatus.text = getString(R.string.recording)
                     binding.tvRecordLabel.text = getString(R.string.stop_recording)
-                    val pulse = AnimationUtils.loadAnimation(this, R.anim.pulse)
+                    
+                    // Radar pulse effect
+                    startPulse(binding.pulse1, 0)
+                    startPulse(binding.pulse2, 750)
+                    
+                    val pulse = AnimationUtils.loadAnimation(this@RecordActivity, R.anim.pulse)
                     binding.btnMic.startAnimation(pulse)
                     handler.postDelayed(timerRunnable, 1000)
                 }
@@ -149,10 +156,31 @@ class RecordActivity : AppCompatActivity() {
         waveformThread!!.start()
     }
 
+    private fun startPulse(view: View, delay: Long) {
+        val scaleX = android.animation.ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.8f)
+        val scaleY = android.animation.ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.8f)
+        val alpha = android.animation.ObjectAnimator.ofFloat(view, "alpha", 0.4f, 0f)
+
+        listOf(scaleX, scaleY, alpha).forEach {
+            it.repeatCount = android.animation.ObjectAnimator.INFINITE
+            it.repeatMode = android.animation.ObjectAnimator.RESTART
+            it.duration = 1500
+            it.startDelay = delay
+            it.start()
+            pulseAnimators.add(it)
+        }
+        view.visibility = View.VISIBLE
+    }
+
     private fun stopRecording() {
         isRecording = false
         handler.removeCallbacks(timerRunnable)
         binding.btnMic.clearAnimation()
+        pulseAnimators.forEach { it.cancel() }
+        pulseAnimators.clear()
+        binding.pulse1.visibility = View.GONE
+        binding.pulse2.visibility = View.GONE
+        
         binding.tvStatus.text = "Saving recording…"
         binding.tvRecordLabel.text = getString(R.string.start_recording)
 
@@ -204,6 +232,10 @@ class RecordActivity : AppCompatActivity() {
         recordingThread?.stopRecording()
         handler.removeCallbacks(timerRunnable)
         binding.btnMic.clearAnimation()
+        pulseAnimators.forEach { it.cancel() }
+        pulseAnimators.clear()
+        binding.pulse1.visibility = View.GONE
+        binding.pulse2.visibility = View.GONE
         finish()
     }
 

@@ -41,6 +41,11 @@ class PlaybackActivity : AppCompatActivity() {
         binding = ActivityPlaybackBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val transitionName = intent.getStringExtra("TRANSITION_NAME")
+        if (transitionName != null) {
+            binding.mainContainer.transitionName = transitionName
+        }
+
         db = DatabaseHelper(this)
 
         val noteId = intent.getLongExtra("NOTE_ID", -1L)

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary palette -->
-    <color name="navy_dark">#0D1B2A</color>
-    <color name="navy_mid">#1B2B3E</color>
-    <color name="navy_card">#1E3050</color>
+    <!-- LIGHT MODE PALETTE -->
+    <color name="bg_primary">#F5F7FA</color>
+    <color name="bg_secondary">#E4E7EB</color>
+    <color name="bg_card">#FFFFFF</color>
+    
     <color name="gold">#F5A623</color>
     <color name="gold_dark">#C4831A</color>
-    <color name="white">#FFFFFF</color>
-    <color name="white_70">#B3FFFFFF</color>
-    <color name="white_40">#66FFFFFF</color>
+    
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_tertiary">#999999</color>
+    
     <color name="red_delete">#E53935</color>
     <color name="green_success">#43A047</color>
     <color name="waveform_bar">#F5A623</color>

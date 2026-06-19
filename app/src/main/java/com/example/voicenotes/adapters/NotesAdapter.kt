@@ -11,7 +11,7 @@ import java.util.Locale
 
 class NotesAdapter(
     private val notes: MutableList<VoiceNote>,
-    private val onClick: (VoiceNote) -> Unit,
+    private val onClick: (VoiceNote, android.view.View) -> Unit,
     private val onLongClick: (VoiceNote) -> Unit
 ) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
 
@@ -32,7 +32,8 @@ class NotesAdapter(
             tvDuration.text  = formatDuration(note.duration)
             tvDate.text      = formatDate(note.timestamp)
 
-            root.setOnClickListener     { onClick(note) }
+            root.transitionName = "shared_note_${note.id}"
+            root.setOnClickListener     { onClick(note, root) }
             root.setOnLongClickListener { onLongClick(note); true }
         }
     }
@@ -43,6 +44,12 @@ class NotesAdapter(
         notes.clear()
         notes.addAll(newList)
         notifyDataSetChanged()
+    }
+
+    fun getNoteAt(position: Int): VoiceNote = notes[position]
+
+    fun restoreItem(position: Int) {
+        notifyItemChanged(position)
     }
 
     private fun formatDuration(seconds: Int): String {

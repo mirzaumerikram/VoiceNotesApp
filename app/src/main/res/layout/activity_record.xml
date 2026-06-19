@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/navy_dark"
+    android:background="@color/bg_primary"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="24dp">
@@ -20,8 +20,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_btn_outline"
             android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
+            android:paddingVertical="12dp"
             android:text="← Back"
+            android:contentDescription="Go back"
             android:textColor="@color/gold"
             android:textSize="13sp" />
 
@@ -32,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="New Recording"
-        android:textColor="@color/white"
+        android:textColor="@color/text_primary"
         android:textSize="26sp"
         android:textStyle="bold" />
 
@@ -42,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:text="@string/tap_to_record"
-        android:textColor="@color/white_70"
+        android:textColor="@color/text_primary_70"
         android:textSize="14sp" />
 
     <!-- Timer -->
@@ -81,23 +82,48 @@
 
     </LinearLayout>
 
-    <!-- Big mic button -->
-    <LinearLayout
-        android:id="@+id/btnMic"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
         android:layout_marginTop="32dp"
-        android:background="@drawable/bg_gold_round"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:gravity="center">
 
-        <ImageView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@android:drawable/ic_btn_speak_now"
-            android:tint="@color/navy_dark" />
+        <View
+            android:id="@+id/pulse2"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_gold_round"
+            android:alpha="0" />
 
-    </LinearLayout>
+        <View
+            android:id="@+id/pulse1"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_gold_round"
+            android:alpha="0" />
+
+        <LinearLayout
+            android:id="@+id/btnMic"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_gold_round"
+            android:elevation="8dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@android:drawable/ic_btn_speak_now"
+                android:contentDescription="Microphone recording button"
+                android:tint="@color/bg_primary" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tvRecordLabel"
@@ -105,7 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/start_recording"
-        android:textColor="@color/white_70"
+        android:textColor="@color/text_primary_70"
         android:textSize="14sp" />
 
 </LinearLayout>

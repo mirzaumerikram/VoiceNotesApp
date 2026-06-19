@@ -3,26 +3,29 @@
     <style name="Theme.VoiceNotes" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/gold</item>
         <item name="colorPrimaryVariant">@color/gold_dark</item>
-        <item name="colorOnPrimary">@color/navy_dark</item>
-        <item name="colorSurface">@color/navy_mid</item>
-        <item name="colorOnSurface">@color/white</item>
-        <item name="android:windowBackground">@color/navy_dark</item>
-        <item name="android:statusBarColor">@color/navy_dark</item>
-        <item name="android:navigationBarColor">@color/navy_dark</item>
+        <item name="colorOnPrimary">@color/bg_primary</item>
+        <item name="colorSurface">@color/bg_secondary</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="android:windowBackground">@color/bg_primary</item>
+        <item name="android:statusBarColor">@color/bg_primary</item>
+        <item name="android:navigationBarColor">@color/bg_primary</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
     </style>
 
     <style name="TextAppearance.VoiceNotes.Title" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/text_primary</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.VoiceNotes.Subtitle" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">@color/white_70</item>
+        <item name="android:textColor">@color/text_secondary</item>
     </style>
 
     <style name="Widget.VoiceNotes.Button.Gold" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/gold</item>
-        <item name="android:textColor">@color/navy_dark</item>
+        <item name="android:textColor">@color/bg_primary</item>
         <item name="android:textStyle">bold</item>
         <item name="cornerRadius">12dp</item>
     </style>
@@ -36,6 +39,6 @@
     <style name="Widget.VoiceNotes.EditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/gold</item>
         <item name="hintTextColor">@color/gold</item>
-        <item name="android:textColorHint">@color/white_40</item>
+        <item name="android:textColorHint">@color/text_tertiary</item>
     </style>
 </resources>

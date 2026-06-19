@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/navy_dark"
+    android:background="@color/bg_primary"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -13,14 +13,14 @@
         android:background="@drawable/bg_gold_round"
         android:padding="28dp"
         android:src="@android:drawable/ic_btn_speak_now"
-        android:tint="@color/navy_dark" />
+        android:tint="@color/bg_primary" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="VoiceNotes"
-        android:textColor="@color/white"
+        android:textColor="@color/text_primary"
         android:textSize="36sp"
         android:textStyle="bold" />
 

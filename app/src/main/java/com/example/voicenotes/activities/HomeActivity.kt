@@ -1,6 +1,9 @@
 package com.example.voicenotes.activities
 
 import android.content.Intent
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,7 +12,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.voicenotes.R
 import com.example.voicenotes.adapters.NotesAdapter
 import com.example.voicenotes.databinding.ActivityHomeBinding
@@ -40,7 +45,7 @@ class HomeActivity : AppCompatActivity() {
         binding.tvWelcome.text = "Hi, ${session.getUserName()} 👋"
 
         adapter = NotesAdapter(notes,
-            onClick    = { note -> openPlayback(note) },
+            onClick    = { note, view -> openPlayback(note, view) },
             onLongClick = { note -> showNoteOptions(note) }
         )
 
@@ -51,6 +56,7 @@ class HomeActivity : AppCompatActivity() {
             startActivity(Intent(this, RecordActivity::class.java))
         }
 
+        setupSwipeToDelete()
         loadNotes()
     }
 
@@ -68,11 +74,15 @@ class HomeActivity : AppCompatActivity() {
         binding.recyclerNotes.visibility = if (count == 0) View.GONE   else View.VISIBLE
     }
 
-    private fun openPlayback(note: VoiceNote) {
+    private fun openPlayback(note: VoiceNote, view: View) {
         val intent = Intent(this, PlaybackActivity::class.java).apply {
             putExtra("NOTE_ID", note.id)
+            putExtra("TRANSITION_NAME", "shared_note_${note.id}")
         }
-        startActivity(intent)
+        val options = androidx.core.app.ActivityOptionsCompat.makeSceneTransitionAnimation(
+            this, view, "shared_note_${note.id}"
+        )
+        startActivity(intent, options.toBundle())
     }
 
     private fun showNoteOptions(note: VoiceNote) {
@@ -136,6 +146,54 @@ class HomeActivity : AppCompatActivity() {
             .show()
     }
 
+    private fun setupSwipeToDelete() {
+        val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder) = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                viewHolder.itemView.performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS)
+                val position = viewHolder.adapterPosition
+                val note = adapter.getNoteAt(position)
+                
+                AlertDialog.Builder(this@HomeActivity)
+                    .setTitle("Delete Recording")
+                    .setMessage("Delete \"${note.title}\"? This cannot be undone.")
+                    .setPositiveButton("Delete") { _, _ ->
+                        Thread(Runnable {
+                            val file = File(note.filePath)
+                            if (file.exists()) file.delete()
+                            db.deleteNote(note.id)
+                            runOnUiThread {
+                                Toast.makeText(this@HomeActivity, "Recording deleted.", Toast.LENGTH_SHORT).show()
+                                loadNotes()
+                            }
+                        }, "FileIOThread").start()
+                    }
+                    .setNegativeButton("Cancel") { d, _ ->
+                        adapter.restoreItem(position)
+                        d.dismiss()
+                    }
+                    .setOnCancelListener { adapter.restoreItem(position) }
+                    .show()
+            }
+
+            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+                val itemView = viewHolder.itemView
+                val p = Paint()
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    p.color = Color.parseColor("#E53935")
+                    if (dX > 0) {
+                        c.drawRect(itemView.left.toFloat(), itemView.top.toFloat(), itemView.left.toFloat() + dX, itemView.bottom.toFloat(), p)
+                    } else if (dX < 0) {
+                        c.drawRect(itemView.right.toFloat() + dX, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat(), p)
+                    }
+                }
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            }
+        }
+        ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(binding.recyclerNotes)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_home, menu)
         return true
@@ -155,11 +213,8 @@ class HomeActivity : AppCompatActivity() {
             }
             R.id.action_about -> {
                 val dialogView = layoutInflater.inflate(R.layout.dialog_about, null)
-                val dialog = AlertDialog.Builder(this, R.style.Theme_AppCompat_Dialog) // Use dark theme wrapper
-                    .setView(dialogView)
-                    .create()
-                
-                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                val dialog = com.google.android.material.bottomsheet.BottomSheetDialog(this)
+                dialog.setContentView(dialogView)
                 
                 dialogView.findViewById<View>(R.id.btnAboutClose).setOnClickListener {
                     dialog.dismiss()
