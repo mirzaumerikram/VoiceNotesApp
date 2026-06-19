@@ -154,11 +154,18 @@ class HomeActivity : AppCompatActivity() {
                 true
             }
             R.id.action_about -> {
-                AlertDialog.Builder(this)
-                    .setTitle("VoiceNotes")
-                    .setMessage("Version 1.0\nFYP26-CS-G11\nUCP Lahore\n\nMirza Umer Ikram")
-                    .setPositiveButton("OK") { d, _ -> d.dismiss() }
-                    .show()
+                val dialogView = layoutInflater.inflate(R.layout.dialog_about, null)
+                val dialog = AlertDialog.Builder(this, R.style.Theme_AppCompat_Dialog) // Use dark theme wrapper
+                    .setView(dialogView)
+                    .create()
+                
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                
+                dialogView.findViewById<View>(R.id.btnAboutClose).setOnClickListener {
+                    dialog.dismiss()
+                }
+                
+                dialog.show()
                 true
             }
             R.id.action_logout -> {
